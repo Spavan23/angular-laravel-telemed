@@ -1,0 +1,56 @@
+<div class="consultations-container">
+    <div class="consultations-header">
+        <h2>My Consultations</h2>
+        <a routerLink="/patient/book" class="btn-primary">Book New Consultation</a>
+    </div>
+
+    <div class="filter-bar">
+        <button [class.active]="selectedStatus === 'all'" (click)="onFilterChange('all')">
+            All
+        </button>
+        <button [class.active]="selectedStatus === 'Booked'" (click)="onFilterChange('Booked')">
+            Booked
+        </button>
+        <button [class.active]="selectedStatus === 'In Progress'" (click)="onFilterChange('In Progress')">
+            In Progress
+        </button>
+        <button [class.active]="selectedStatus === 'Completed'" (click)="onFilterChange('Completed')">
+            Completed
+        </button>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+        <p>Loading consultations...</p>
+    </div>
+
+    <div class="consultations-list" *ngIf="!loading">
+        <div class="empty-state" *ngIf="filteredConsultations.length === 0">
+            <p>No consultations found</p>
+            <a routerLink="/patient/book" class="btn-secondary">Book your first consultation</a>
+        </div>
+
+        <div class="consultation-card" *ngFor="let consultation of filteredConsultations">
+            <div class="consultation-header">
+                <div class="consultation-info">
+                    <h3>{{ consultation.doctorName }}</h3>
+                    <p class="consultation-date">{{ formatDate(consultation.scheduledDate) }} at {{
+                        consultation.scheduledTime }}</p>
+                </div>
+                <span class="status-badge" [ngClass]="getStatusClass(consultation.status)">
+                    {{ consultation.status }}
+                </span>
+            </div>
+
+            <div class="consultation-body">
+                <div class="info-row">
+                    <span class="label">Reason:</span>
+                    <span class="value">{{ consultation.reason }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Booked on:</span>
+                    <span class="value">{{ formatDate(consultation.createdAt) }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

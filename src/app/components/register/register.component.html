@@ -1,0 +1,79 @@
+<div class="register-container">
+    <div class="register-card">
+        <div class="register-header">
+            <h1>Create Account</h1>
+            <p>Join our telemedicine platform</p>
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" formControlName="name" placeholder="Enter your full name"
+                    [class.error]="name?.invalid && name?.touched" />
+                <div class="error-message" *ngIf="name?.invalid && name?.touched">
+                    <span *ngIf="name?.errors?.['required']">Name is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" formControlName="email" placeholder="Enter your email"
+                    [class.error]="email?.invalid && email?.touched" />
+                <div class="error-message" *ngIf="email?.invalid && email?.touched">
+                    <span *ngIf="email?.errors?.['required']">Email is required</span>
+                    <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" formControlName="password" placeholder="Enter your password"
+                    [class.error]="password?.invalid && password?.touched" />
+                <div class="error-message" *ngIf="password?.invalid && password?.touched">
+                    <span *ngIf="password?.errors?.['required']">Password is required</span>
+                    <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" formControlName="phone" placeholder="Enter your phone number"
+                    [class.error]="phone?.invalid && phone?.touched" />
+                <div class="error-message" *ngIf="phone?.invalid && phone?.touched">
+                    <span *ngIf="phone?.errors?.['required']">Phone number is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="role">I am a</label>
+                <select id="role" formControlName="role">
+                    <option value="patient">Patient</option>
+                    <option value="doctor">Doctor</option>
+                </select>
+            </div>
+
+            <div class="form-group" *ngIf="role?.value === 'doctor'">
+                <label for="specialty">Specialty</label>
+                <input type="text" id="specialty" formControlName="specialty"
+                    placeholder="e.g., General Medicine, Cardiology"
+                    [class.error]="specialty?.invalid && specialty?.touched" />
+                <div class="error-message" *ngIf="specialty?.invalid && specialty?.touched">
+                    <span *ngIf="specialty?.errors?.['required']">Specialty is required for doctors</span>
+                </div>
+            </div>
+
+            <div class="error-message" *ngIf="errorMessage">
+                {{ errorMessage }}
+            </div>
+
+            <button type="submit" class="btn-primary" [disabled]="loading || registerForm.invalid">
+                <span *ngIf="!loading">Create Account</span>
+                <span *ngIf="loading">Creating account...</span>
+            </button>
+        </form>
+
+        <div class="register-footer">
+            <p>Already have an account? <a routerLink="/login">Sign in here</a></p>
+        </div>
+    </div>
+</div>

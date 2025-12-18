@@ -1,0 +1,52 @@
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h2>My Consultations</h2>
+        <p>Manage your assigned patient consultations</p>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+        <p>Loading consultations...</p>
+    </div>
+
+    <div class="consultations-list" *ngIf="!loading">
+        <div class="empty-state" *ngIf="consultations.length === 0">
+            <p>No consultations assigned yet</p>
+        </div>
+
+        <div class="consultation-card" *ngFor="let consultation of consultations">
+            <div class="consultation-header">
+                <div class="patient-info">
+                    <h3>{{ consultation.patientName }}</h3>
+                    <p class="consultation-date">{{ formatDate(consultation.scheduledDate) }} at {{
+                        consultation.scheduledTime }}</p>
+                </div>
+                <span class="status-badge" [ngClass]="getStatusClass(consultation.status)">
+                    {{ consultation.status }}
+                </span>
+            </div>
+
+            <div class="consultation-body">
+                <div class="info-row">
+                    <span class="label">Reason for visit:</span>
+                    <span class="value">{{ consultation.reason }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Booked on:</span>
+                    <span class="value">{{ formatDate(consultation.createdAt) }}</span>
+                </div>
+            </div>
+
+            <div class="consultation-actions" *ngIf="consultation.status !== 'Completed'">
+                <button class="btn-action" [disabled]="updatingStatus[consultation.id!]"
+                    (click)="updateStatus(consultation.id, getNextStatus(consultation.status)!)">
+                    <span *ngIf="!updatingStatus[consultation.id!]">
+                        {{ getStatusButtonText(consultation.status) }}
+                    </span>
+                    <span *ngIf="updatingStatus[consultation.id!]">
+                        Updating...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

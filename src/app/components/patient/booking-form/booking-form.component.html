@@ -1,0 +1,54 @@
+<div class="booking-container">
+    <div class="booking-card">
+        <div class="booking-header">
+            <h2>Book a Consultation</h2>
+            <p>Schedule an online consultation with our doctors</p>
+        </div>
+
+        <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="booking-form">
+            <div class="form-group">
+                <label for="scheduledDate">Consultation Date</label>
+                <input type="date" id="scheduledDate" formControlName="scheduledDate" [min]="minDate"
+                    [class.error]="scheduledDate?.invalid && scheduledDate?.touched" />
+                <div class="error-message" *ngIf="scheduledDate?.invalid && scheduledDate?.touched">
+                    <span *ngIf="scheduledDate?.errors?.['required']">Date is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="scheduledTime">Preferred Time</label>
+                <select id="scheduledTime" formControlName="scheduledTime"
+                    [class.error]="scheduledTime?.invalid && scheduledTime?.touched">
+                    <option value="">Select a time slot</option>
+                    <option *ngFor="let slot of timeSlots" [value]="slot">{{ slot }}</option>
+                </select>
+                <div class="error-message" *ngIf="scheduledTime?.invalid && scheduledTime?.touched">
+                    <span *ngIf="scheduledTime?.errors?.['required']">Time is required</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="reason">Reason for Consultation</label>
+                <textarea id="reason" formControlName="reason" rows="4"
+                    placeholder="Describe your symptoms or reason for consultation"
+                    [class.error]="reason?.invalid && reason?.touched"></textarea>
+                <div class="error-message" *ngIf="reason?.invalid && reason?.touched">
+                    <span *ngIf="reason?.errors?.['required']">Reason is required</span>
+                </div>
+            </div>
+
+            <div class="success-message" *ngIf="successMessage">
+                ✓ {{ successMessage }}
+            </div>
+
+            <div class="error-message" *ngIf="errorMessage">
+                {{ errorMessage }}
+            </div>
+
+            <button type="submit" class="btn-primary" [disabled]="loading || bookingForm.invalid">
+                <span *ngIf="!loading">Book Consultation</span>
+                <span *ngIf="loading">Booking...</span>
+            </button>
+        </form>
+    </div>
+</div>

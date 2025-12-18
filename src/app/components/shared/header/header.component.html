@@ -1,0 +1,35 @@
+<header class="app-header">
+    <div class="header-container">
+        <div class="logo">
+            <h1>TeleMed</h1>
+        </div>
+
+        <nav class="nav-menu" *ngIf="currentUser">
+            <a *ngIf="isPatient" routerLink="/patient/consultations" routerLinkActive="active">My Consultations</a>
+            <a *ngIf="isPatient" routerLink="/patient/book" routerLinkActive="active">Book Consultation</a>
+            <a *ngIf="isDoctor" routerLink="/doctor/dashboard" routerLinkActive="active">Dashboard</a>
+        </nav>
+
+        <div class="user-section">
+            <div class="user-info" *ngIf="currentUser" (click)="toggleUserMenu()">
+                <span class="user-name">{{ currentUser.name }}</span>
+                <span class="user-role">{{ currentUser.role }}</span>
+            </div>
+
+            <div class="user-menu" *ngIf="showUserMenu && currentUser">
+                <div class="menu-item">
+                    <span>{{ currentUser.email }}</span>
+                </div>
+                <div class="menu-divider"></div>
+                <div class="menu-item clickable" (click)="logout()">
+                    Logout
+                </div>
+            </div>
+
+            <div class="auth-links" *ngIf="!currentUser">
+                <a routerLink="/login" class="btn-secondary">Login</a>
+                <a routerLink="/register" class="btn-primary">Register</a>
+            </div>
+        </div>
+    </div>
+</header>
