@@ -75,7 +75,4 @@ Navigate to `http://localhost:4200` to view the application.
 - **Appointment Booking:** Patients can request consultations.
 - **Doctor Dashboard:** Doctors can view and manage appointments.
 - **Real-time Updates:** Status changes reflect instantly via Firebase.
-
-## 📄 License
-
-This project is licensed under the MIT License.
+ 
